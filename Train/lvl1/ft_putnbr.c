@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 15:17:22 by ldauber           #+#    #+#             */
-/*   Updated: 2025/12/03 14:03:46 by ldauber          ###   ########.fr       */
+/*   Created: 2025/12/03 09:25:02 by ldauber           #+#    #+#             */
+/*   Updated: 2025/12/03 09:34:15 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
 
-int	ft_strlen(char *str)
+void	ft_putnbr(long i)
 {
-	int i = 0; 
-	while (str[++i]); 
-	return (i);
+	if (i < 0)
+	{
+		write(1, "-", 1);
+		i = -i;
+	}
+	if (i > 9)
+		ft_putnbr(i / 10);
+	write(1, &"0123456789"[i % 10], 1);
 }
 
-int main(int ac, char **av)
+int main()
 {
-	if (ac == 2)
-	{
-		printf("len = %d\n", ft_strlen(av[1]));
-		printf("vlen = %lu", strlen(av[1]));
-	}
+	int i = -2147483648;
+	ft_putnbr(i);
 	return (0);
 }
+

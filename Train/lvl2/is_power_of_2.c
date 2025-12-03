@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   is_power_of_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 15:17:22 by ldauber           #+#    #+#             */
-/*   Updated: 2025/12/03 14:03:46 by ldauber          ###   ########.fr       */
+/*   Created: 2025/12/03 12:34:07 by ldauber           #+#    #+#             */
+/*   Updated: 2025/12/03 12:46:30 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdio.h>
-#include <string.h>
 
-int	ft_strlen(char *str)
+int	is_power_of_2(unsigned int n)
 {
-	int i = 0; 
-	while (str[++i]); 
-	return (i);
+	unsigned int i = 1;
+	while (i <= n)
+	{
+		if (i == n)
+			return (1);
+		i = i * 2;
+	}
+	return (0);
 }
 
-int main(int ac, char **av)
+int main()
 {
-	if (ac == 2)
-	{
-		printf("len = %d\n", ft_strlen(av[1]));
-		printf("vlen = %lu", strlen(av[1]));
-	}
+	int i = 10;
+	printf("%d\n", is_power_of_2(i));
 	return (0);
 }

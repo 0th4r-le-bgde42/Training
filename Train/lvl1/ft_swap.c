@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tab.c                                         :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/31 15:34:53 by ldauber           #+#    #+#             */
-/*   Updated: 2025/10/31 15:36:01 by ldauber          ###   ########.fr       */
+/*   Created: 2025/12/03 09:36:29 by ldauber           #+#    #+#             */
+/*   Updated: 2025/12/03 10:18:11 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void ft_free_tab(char **tab)
-{
-	int	i;
+#include <stdio.h>
 
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
+void	ft_swap(int *a, int *b)
+{
+	int	c = 0;
+	c = *b;
+	*b = *a;
+	*a = c;
+}
+
+int main()
+{
+	int a = 1;
+	int b = 2;
+	printf("a = %d, b = %d\n", a, b);
+	ft_swap(&a, &b);
+	printf("na = %d, nb = %d\n", a, b);
 }

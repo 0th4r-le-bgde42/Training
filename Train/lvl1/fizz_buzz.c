@@ -6,16 +6,14 @@
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:04:54 by ldauber           #+#    #+#             */
-/*   Updated: 2025/12/02 10:08:11 by ldauber          ###   ########.fr       */
+/*   Updated: 2025/12/03 09:36:03 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putnbr(int i)
+void	ft_putnbr(long i)
 {
-	if (i == -2147483648)
-		write(1, "-2147483648", 11);
 	if (i < 0)
 	{
 		write(1, "-", 1);
