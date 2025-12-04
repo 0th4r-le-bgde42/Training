@@ -1,40 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 10:55:18 by ldauber           #+#    #+#             */
-/*   Updated: 2025/12/03 15:20:37 by ldauber          ###   ########.fr       */
+/*   Created: 2025/12/03 14:45:07 by ldauber           #+#    #+#             */
+/*   Updated: 2025/12/03 15:17:47 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 #include <stdio.h>
+#include <string.h>
 
-int ft_atoi(const char *str)
+int is_charset(const char c, const char *accept)
 {
-	int result = 0;
-	int sign = 1;
 	int i = -1;
-	while((str[++i] >= 9 && str[i] <= 13) || str[i] == 32);
-	if (str[++i] == '-' || str[i] == '+')
-		if(str[i] == '-')
-			sign *= -1;
-	while (str[++i])
-	{
-		result *= 10;
-		result += str[i] - '0';
-	}
-	return (result * sign);
+	while (accept[++i])
+		if (accept[i] == c)
+			return (1);
+	return (0);
+}
+
+size_t	ft_strspn(const char *s, const char *accept)
+{
+	int i = -1;
+	while (s[++i] && is_charset(s[i], accept) == 1);
+	return ((size_t)i);
 }
 
 int main(int ac, char **av)
 {
-	if (ac == 2)
+	if (ac == 3)
 	{
-		printf("%d", ft_atoi(av[1]));
+		printf("OG = %zu\n", ft_strspn(av[1], av[2]));
+		printf("T = %zu\n", strspn(av[1], av[2]));
 	}
-	printf("\n");
+	else
+		printf("bouffon");
 	return (0);
 }

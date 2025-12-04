@@ -1,40 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   last_word.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 10:55:18 by ldauber           #+#    #+#             */
-/*   Updated: 2025/12/03 15:20:37 by ldauber          ###   ########.fr       */
+/*   Created: 2025/12/04 10:06:37 by ldauber           #+#    #+#             */
+/*   Updated: 2025/12/04 11:31:02 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <unistd.h>
 
-int ft_atoi(const char *str)
+int ft_strlen(char *str)
 {
-	int result = 0;
-	int sign = 1;
-	int i = -1;
-	while((str[++i] >= 9 && str[i] <= 13) || str[i] == 32);
-	if (str[++i] == '-' || str[i] == '+')
-		if(str[i] == '-')
-			sign *= -1;
-	while (str[++i])
-	{
-		result *= 10;
-		result += str[i] - '0';
-	}
-	return (result * sign);
+	int i = 0;
+	while (str[++i]);
+	return (i);
 }
 
-int main(int ac, char **av)
+int main (int ac, char **av)
 {
+	int i = ft_strlen(av[1]);
 	if (ac == 2)
 	{
-		printf("%d", ft_atoi(av[1]));
+		while (av[1][--i] == 9 || av[1][--i] == 32);
+		while (i >= 0)
+		{
+			i--;
+			if (av[1][i] == 9 || av[1][i] == 32)
+			{
+				while (av[1][++i])
+				{
+					if (av[1][i] == 9 || av[1][i] == 32)
+						break;
+					write(1, &av[1][i], 1);
+
+				}
+				break;
+			}
+		}
 	}
-	printf("\n");
-	return (0);
+	write(1, "\n", 1);
 }

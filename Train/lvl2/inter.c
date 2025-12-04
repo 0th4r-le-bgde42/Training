@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   inter.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 10:55:18 by ldauber           #+#    #+#             */
-/*   Updated: 2025/12/03 15:20:37 by ldauber          ###   ########.fr       */
+/*   Created: 2025/12/04 08:45:02 by ldauber           #+#    #+#             */
+/*   Updated: 2025/12/04 10:05:25 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-int ft_atoi(const char *str)
-{
-	int result = 0;
-	int sign = 1;
-	int i = -1;
-	while((str[++i] >= 9 && str[i] <= 13) || str[i] == 32);
-	if (str[++i] == '-' || str[i] == '+')
-		if(str[i] == '-')
-			sign *= -1;
-	while (str[++i])
-	{
-		result *= 10;
-		result += str[i] - '0';
-	}
-	return (result * sign);
-}
+#include <unistd.h>
 
 int main(int ac, char **av)
 {
-	if (ac == 2)
+	int	i = 0;
+	int j;
+	int seen[256] = {};
+	if (ac == 3)
 	{
-		printf("%d", ft_atoi(av[1]));
+		while (av[1][i])
+		{
+			j = 0;
+			while (av[2][j])
+			{
+				if (av[1][i] == av[2][j] && !seen[(int)av[2][j]])
+				{
+					seen[(int)av[2][j]] = 1;
+					write(1, &av[2][j], 1);
+				}
+				j++;
+			}
+			i++;
+		}
 	}
-	printf("\n");
-	return (0);
+	write(1, "\n", 1);
 }
