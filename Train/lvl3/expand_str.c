@@ -1,40 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   expand_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldauber <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 10:55:18 by ldauber           #+#    #+#             */
-/*   Updated: 2025/12/03 15:20:37 by ldauber          ###   ########.fr       */
+/*   Created: 2025/12/09 11:55:09 by ldauber           #+#    #+#             */
+/*   Updated: 2025/12/09 12:16:04 by ldauber          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <unistd.h>
 
-int ft_atoi(const char *str)
+int is_space(char c)
 {
-	int result = 0;
-	int sign = 1;
-	int i = -1;
-	while((str[++i] >= 9 && str[i] <= 13) || str[i] == 32);
-	if (str[++i] == '-' || str[i] == '+')
-		if(str[i] == '-')
-			sign *= -1;
-	while (str[++i])
-	{
-		result *= 10;
-		result += str[i] - '0';
-	}
-	return (result * sign);
+	if (c <= 32)
+		return (1);
+	return (0);
 }
 
 int main(int ac, char **av)
 {
+	int i = 0;
+	int space = 0;
 	if (ac == 2)
 	{
-		printf("%d", ft_atoi(av[1]));
+		while (is_space(av[1][i]))
+			i++;
+		while (av[1][i])
+		{
+			if (is_space(av[1][i]))
+				space = 1;
+			if (!is_space(av[1][i]))
+			{
+				if (space)
+					write(1, "   ", 3);
+				space = 0;
+				write(1, &av[1][i], 1);
+			}
+			i++;
+		}
 	}
-	printf("\n");
+	write(1, "\n", 1);
 	return (0);
 }
