@@ -1,10 +1,10 @@
 /* ********************************************************** */
 /*                                                            */
-/* ✨  GRIMOIRE DES SORTS : sautepair.c               ✨      */
+/* ✨  GRIMOIRE DES SORTS : intermonnaie.c            ✨      */
 /*                                                            */
-/* Créé pour : Le Professeur                                  */
+/* Créé pour : Le Marchand                                    */
 /* Rédigé par : Le Mage ldauber                               */
-/* Date de rédaction : 18/12/2025 16:04                       */
+/* Date de rédaction : 19/12/2025 11:19                       */
 /*                                                            */
 /*                ||/                         /{\             */
 /*                |  @___oo                   \}/             */
@@ -19,60 +19,50 @@
 /*  \______(_______;;; __;;;                   |    /  \_.--\ */
 /* ********************************************************** */
 
-#include <unistd.h>
+#include <stdio.h>
 
-void ecritnombre(long n)
+void intermonnaie(int *i, int *j)
 {
-	if (n > 9)
-		ecritnombre(n / 10);
-	write(1, &"0123456789"[n % 10], 1);
-}
-
-void ecritmot(char *s)
-{
-	int i = -1;
-	while (s[++i])
-		write(1, &s[i], 1);
-}
-
-void sautepair(int len)
-{
-	int i = 1;
-	while (i <= len)
-	{
-		if (i % 2 == 0)
-			ecritmot("sauter\n");
-		else
-		{
-			ecritnombre(i);
-			write(1,"\n", 1);
-		}
-		i++;
-	}
+	int tmp = 0;
+	tmp = *i;
+	*i = *j;
+	*j = tmp;
 }
 
 int expeliatoi(char *s)
 {
 	int res = 0;
 	int i = 0;
+	int sign = 1;
+	if (s[i] == '-' && s[i] == '+')
+	{
+		if (s[i] == '-')
+		{
+			sign = -1;
+			i++;
+		}
+	}
 	while (s[i] >= 48 && s[i] <= 57)
 	{
 		res *= 10;
 		res += s[i] - 48;
 		i++;
 	}
-	return (res);
+	return (res * sign);
 }
 
 int main(int ac, char **av)
 {
-	/*int n = 12;
-	char *s = "sauter";
-	ecritnombre(n);
-	write(1, "\n", 1);
-	ecritmot(s);*/
-
-	if (ac == 2)
-		sautepair(expeliatoi(av[1]));
+	if (ac == 3)
+	{
+		int a = expeliatoi(av[1]);
+		int b = expeliatoi(av[2]);
+		printf("personne_a = %d\npersonne_b = %d\n", a, b);
+		printf("~~intervertion~~\n");
+		intermonnaie(&a, &b);
+		printf("personne_a = %d\npersonne_b = %d\n", a, b);
+	}
+	else
+		printf("\n");
 	return (0);
 }

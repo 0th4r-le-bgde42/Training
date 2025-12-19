@@ -1,10 +1,10 @@
 /* ********************************************************** */
 /*                                                            */
-/* ✨  GRIMOIRE DES SORTS : sautepair.c               ✨      */
+/* ✨  GRIMOIRE DES SORTS : tabmult.c                 ✨      */
 /*                                                            */
 /* Créé pour : Le Professeur                                  */
 /* Rédigé par : Le Mage ldauber                               */
-/* Date de rédaction : 18/12/2025 16:04                       */
+/* Date de rédaction : 19/12/2025 10:50                       */
 /*                                                            */
 /*                ||/                         /{\             */
 /*                |  @___oo                   \}/             */
@@ -28,26 +28,28 @@ void ecritnombre(long n)
 	write(1, &"0123456789"[n % 10], 1);
 }
 
-void ecritmot(char *s)
+void ecritmult()
 {
-	int i = -1;
-	while (s[++i])
-		write(1, &s[i], 1);
+	write(1, " x ", 3);
 }
 
-void sautepair(int len)
+void ecritres()
 {
-	int i = 1;
-	while (i <= len)
+	write(1, " = ", 3);
+}
+void tabmult(long n)
+{
+	int i = 0;
+	while (++i <= 10)
 	{
-		if (i % 2 == 0)
-			ecritmot("sauter\n");
-		else
-		{
-			ecritnombre(i);
-			write(1,"\n", 1);
-		}
-		i++;
+		if (i < 10)
+			write(1, " ", 1);
+		ecritnombre(i);
+		ecritmult();
+		ecritnombre(n);
+		ecritres();
+		ecritnombre(i * n);
+		write(1, "\n", 1);
 	}
 }
 
@@ -66,13 +68,7 @@ int expeliatoi(char *s)
 
 int main(int ac, char **av)
 {
-	/*int n = 12;
-	char *s = "sauter";
-	ecritnombre(n);
-	write(1, "\n", 1);
-	ecritmot(s);*/
-
 	if (ac == 2)
-		sautepair(expeliatoi(av[1]));
+		tabmult(expeliatoi(av[1]));
 	return (0);
 }

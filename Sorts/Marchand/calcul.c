@@ -1,10 +1,10 @@
 /* ********************************************************** */
 /*                                                            */
-/* ✨  GRIMOIRE DES SORTS : sautepair.c               ✨      */
+/* ✨  GRIMOIRE DES SORTS : calcul.c                  ✨      */
 /*                                                            */
-/* Créé pour : Le Professeur                                  */
+/* Créé pour : Le Marchand                                    */
 /* Rédigé par : Le Mage ldauber                               */
-/* Date de rédaction : 18/12/2025 16:04                       */
+/* Date de rédaction : 19/12/2025 11:57                       */
 /*                                                            */
 /*                ||/                         /{\             */
 /*                |  @___oo                   \}/             */
@@ -21,58 +21,87 @@
 
 #include <unistd.h>
 
-void ecritnombre(long n)
+int add(int i, int j)
 {
-	if (n > 9)
-		ecritnombre(n / 10);
-	write(1, &"0123456789"[n % 10], 1);
+	int res = i + j;
+	return (res);
 }
 
-void ecritmot(char *s)
+int sous(int i, int j)
 {
-	int i = -1;
-	while (s[++i])
-		write(1, &s[i], 1);
+	int res = i - j;
+	return (res);
 }
 
-void sautepair(int len)
+int mult(int i, int j)
 {
-	int i = 1;
-	while (i <= len)
-	{
-		if (i % 2 == 0)
-			ecritmot("sauter\n");
-		else
-		{
-			ecritnombre(i);
-			write(1,"\n", 1);
-		}
-		i++;
-	}
+	int res = i * j;
+	return (res);
+}
+
+int div(int i, int j)
+{
+	int res = i / j;
+	return (res);
+}
+
+int mod(int i, int j)
+{
+	int res = i % j;
+	return (res);
 }
 
 int expeliatoi(char *s)
 {
 	int res = 0;
+	int sign = 1;
 	int i = 0;
+	if (s[i] == '-' && s[i] == '+')
+	{
+		if (s[i] == '-')
+		{
+			sign = -1;
+			i++;
+		}
+	}
 	while (s[i] >= 48 && s[i] <= 57)
 	{
 		res *= 10;
 		res += s[i] - 48;
 		i++;
 	}
-	return (res);
+	return (res * sign);
 }
 
+void ecritnombre(long n)
+{
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n = -n;
+	}
+	if ( n > 9)
+		ecritnombre(n / 10);
+	write(1, &"0123456789"[n % 10], 1);
+}
 int main(int ac, char **av)
 {
-	/*int n = 12;
-	char *s = "sauter";
-	ecritnombre(n);
+	if (ac == 4)
+	{
+		int i = expeliatoi(av[1]);
+		int j = expeliatoi(av[3]);
+		char c = av[2][0];
+		if (c == '+')
+			ecritnombre(add(i, j));
+		if (c == '-')
+			ecritnombre(sous(i, j));
+		if (c == '*')
+			ecritnombre(mult(i, j));
+		if (c == '/')
+			ecritnombre(div(i, j));
+		if (c == '%')
+			ecritnombre(mod(i, j));
+	}
 	write(1, "\n", 1);
-	ecritmot(s);*/
-
-	if (ac == 2)
-		sautepair(expeliatoi(av[1]));
 	return (0);
 }

@@ -1,10 +1,10 @@
 /* ********************************************************** */
 /*                                                            */
-/* ✨  GRIMOIRE DES SORTS : sautepair.c               ✨      */
+/* ✨  GRIMOIRE DES SORTS : nbrproduit.c              ✨      */
 /*                                                            */
-/* Créé pour : Le Professeur                                  */
+/* Créé pour : Le Marchand                                    */
 /* Rédigé par : Le Mage ldauber                               */
-/* Date de rédaction : 18/12/2025 16:04                       */
+/* Date de rédaction : 19/12/2025 14:30                       */
 /*                                                            */
 /*                ||/                         /{\             */
 /*                |  @___oo                   \}/             */
@@ -19,60 +19,17 @@
 /*  \______(_______;;; __;;;                   |    /  \_.--\ */
 /* ********************************************************** */
 
-#include <unistd.h>
-
-void ecritnombre(long n)
-{
-	if (n > 9)
-		ecritnombre(n / 10);
-	write(1, &"0123456789"[n % 10], 1);
-}
-
-void ecritmot(char *s)
-{
-	int i = -1;
-	while (s[++i])
-		write(1, &s[i], 1);
-}
-
-void sautepair(int len)
-{
-	int i = 1;
-	while (i <= len)
-	{
-		if (i % 2 == 0)
-			ecritmot("sauter\n");
-		else
-		{
-			ecritnombre(i);
-			write(1,"\n", 1);
-		}
-		i++;
-	}
-}
-
-int expeliatoi(char *s)
-{
-	int res = 0;
-	int i = 0;
-	while (s[i] >= 48 && s[i] <= 57)
-	{
-		res *= 10;
-		res += s[i] - 48;
-		i++;
-	}
-	return (res);
-}
+#include <stdio.h>
 
 int main(int ac, char **av)
 {
-	/*int n = 12;
-	char *s = "sauter";
-	ecritnombre(n);
-	write(1, "\n", 1);
-	ecritmot(s);*/
-
-	if (ac == 2)
-		sautepair(expeliatoi(av[1]));
-	return (0);
+	printf("%d\n", ac - 1);
+	/*int i = 1;
+	(void)av;
+	if (ac > 1)
+	{
+		while (++i < ac);
+		printf("%d\n", i);
+	}*/
+	return ((void)av, 0);
 }

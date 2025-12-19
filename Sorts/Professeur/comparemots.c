@@ -1,10 +1,10 @@
 /* ********************************************************** */
 /*                                                            */
-/* ✨  GRIMOIRE DES SORTS : sautepair.c               ✨      */
+/* ✨  GRIMOIRE DES SORTS : comparemots.c             ✨      */
 /*                                                            */
 /* Créé pour : Le Professeur                                  */
 /* Rédigé par : Le Mage ldauber                               */
-/* Date de rédaction : 18/12/2025 16:04                       */
+/* Date de rédaction : 19/12/2025 10:35                       */
 /*                                                            */
 /*                ||/                         /{\             */
 /*                |  @___oo                   \}/             */
@@ -21,58 +21,39 @@
 
 #include <unistd.h>
 
-void ecritnombre(long n)
+void comparemot(char *s1, char *s2)
 {
-	if (n > 9)
-		ecritnombre(n / 10);
-	write(1, &"0123456789"[n % 10], 1);
-}
-
-void ecritmot(char *s)
-{
-	int i = -1;
-	while (s[++i])
-		write(1, &s[i], 1);
-}
-
-void sautepair(int len)
-{
-	int i = 1;
-	while (i <= len)
+	int i = 0;
+	int j = 0;
+	while (s1[i])
 	{
-		if (i % 2 == 0)
-			ecritmot("sauter\n");
-		else
+		while (s2[i])
 		{
-			ecritnombre(i);
-			write(1,"\n", 1);
+			if (s1[i] != s2[j])
+			{
+				write(1, "different\n", 10);
+				return ;
+			}
+			else
+			{
+				write(1, "juste", 5);
+				return ;
+			}
+			j++;
 		}
 		i++;
 	}
 }
 
-int expeliatoi(char *s)
-{
-	int res = 0;
-	int i = 0;
-	while (s[i] >= 48 && s[i] <= 57)
-	{
-		res *= 10;
-		res += s[i] - 48;
-		i++;
-	}
-	return (res);
-}
-
 int main(int ac, char **av)
 {
-	/*int n = 12;
-	char *s = "sauter";
-	ecritnombre(n);
-	write(1, "\n", 1);
-	ecritmot(s);*/
-
-	if (ac == 2)
-		sautepair(expeliatoi(av[1]));
+	if (ac == 3)
+	{
+		char *s1 = av[1];
+		char *s2 = av[2];
+		comparemot(s1, s2);
+	}
+	else
+		write(1, "\n", 1);
 	return (0);
 }
