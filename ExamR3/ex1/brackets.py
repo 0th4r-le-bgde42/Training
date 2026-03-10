@@ -10,4 +10,4 @@ def brackets(text: str) -> bool:
             stack.pop()
     return len(stack) == 0
 
-print(brackets("{({"))
+#print(brackets("{({"))
