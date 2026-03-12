@@ -1,6 +1,6 @@
 PYTHON = python3
-CHECK1 = checker.py
-CHECK2 = checker2.py
+CHECK1 = checkpers.py
+CHECK2 = checknono.py
 
 .PHONY: 1 debug clean lint
 
