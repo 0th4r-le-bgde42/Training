@@ -1,11 +1,11 @@
 def pattern_tracker(text: str) -> int:
 	count = 0
 	prev = None
-	for ch in text:
-		if ch.isdigit():
-			if prev is not None and int(ch) == prev + 1:
+	for c in text:
+		if c.isdigit():
+			if prev is not None and int(c) == prev + 1:
 				count += 1
-			prev = int(ch)
+			prev = int(c)
 		else:
 			prev = None
 	return count

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>42 — Python Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: #22222e;
+    --border-hover: #3a3a50;
+    --text: #e8e8f0;
+    --muted: #5a5a72;
+    --accent: #7c6fff;
+    --accent2: #ff6f7c;
+    --accent3: #6fffc4;
+    --green: #4ade80;
+    --yellow: #fbbf24;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(124,111,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,111,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: var(--accent2); bottom: 10%; right: -100px; }
+  .orb-3 { width: 300px; height: 300px; background: var(--accent3); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 80px 24px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    background: var(--surface);
+  }
+
+  .badge span {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(40px, 7vw, 80px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+  }
+
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--mono);
+    margin-top: 2px;
+  }
+
+  main {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.5s both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,111,255,0.08);
+  }
+
+  /* TOP ROW */
+  .card-header {
+    padding: 24px 32px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .card-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .card-desc {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #888899;
+    flex: 2;
+    min-width: 220px;
+  }
+
+  .card-desc strong { color: var(--text); font-weight: 500; }
+
+  .card-tag {
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .tag-str  { background: rgba(124,111,255,0.12); color: var(--accent);  border: 1px solid rgba(124,111,255,0.2); }
+  .tag-list { background: rgba(111,255,196,0.08); color: var(--accent3); border: 1px solid rgba(111,255,196,0.15); }
+  .tag-bool { background: rgba(251,191,36,0.08);  color: var(--yellow);  border: 1px solid rgba(251,191,36,0.15); }
+  .tag-int  { background: rgba(255,111,124,0.08); color: var(--accent2); border: 1px solid rgba(255,111,124,0.15); }
+
+  /* BODY */
+  .card-body {
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 700px) {
+    .card-body { grid-template-columns: 1fr; }
+    .card-header { gap: 12px; }
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .proto-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--accent3);
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+
+  .examples-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .example-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: var(--surface2);
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .example-input { color: #9999bb; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .arrow { color: var(--muted); flex-shrink: 0; }
+  .example-output { flex-shrink: 0; font-weight: 500; }
+  .out-true  { color: var(--green); }
+  .out-false { color: var(--accent2); }
+  .out-num   { color: var(--yellow); }
+  .out-str   { color: var(--accent3); }
+  .out-list  { color: var(--accent); }
+
+  /* FOOTER */
+  .card-footer { padding: 0 32px 24px; }
+  
+  .btn-solution {
+    width: 100%; padding: 11px 18px; background: transparent; border: 1px solid var(--border);
+    border-radius: 10px; color: var(--muted); font-family: var(--mono); font-size: 12px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-solution:hover { border-color: var(--accent); color: var(--accent); background: rgba(124,111,255,0.06); }
+  .btn-solution.active { border-color: var(--accent); color: var(--text); background: rgba(124,111,255,0.08); }
+  .btn-solution svg { width: 14px; height: 14px; transition: transform 0.2s; }
+  .btn-solution.active svg { transform: rotate(180deg); }
+
+  .solution-block { display: none; background: #0d0d14; border: 1px solid var(--border); border-radius: 12px; margin: 0 32px 24px; overflow: hidden; }
+  .solution-block.open { display: block; }
+
+  .sol-bar { padding: 10px 16px; background: var(--surface2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .sol-lang { font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+  
+  .copy-btn { background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: 10px; cursor: pointer; padding: 3px 10px; border-radius: 4px; transition: all 0.15s; display: flex; align-items: center; gap: 5px; text-transform: uppercase; }
+  .copy-btn:hover { color: var(--text); background: var(--border); }
+  .copy-btn.copied { color: var(--green); }
+
+  pre { padding: 20px 18px; font-family: var(--mono); font-size: 12.5px; line-height: 1.85; overflow-x: auto; margin: 0; }
+  .kw { color: var(--accent); } .fn { color: var(--yellow); } .tp { color: var(--accent2); } .cm { color: #454560; font-style: italic; }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<header>
+  <div class="badge"><span></span> Python Exam — 42</div>
+  <h1>Exam <em>Exercises</em></h1>
+  <p class="subtitle">def solve() → pass</p>
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-num">11</span>
+      <span class="stat-label">Exercises</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">Attempts</span>
+    </div>
+  </div>
+</header>
+
+<main id="grid"></main>
+
+<script>
+const exercises = [
+  {
+    id: "01",
+    name: "brackets",
+    tag: "bool", tagClass: "tag-bool",
+    desc: `Vérifie si les brackets d'une string sont <strong>correctement balancées</strong>.<br>Gère : <strong>() [] {}</strong> — ordre et correspondance.`,
+    proto: `<span class="kw">def</span> <span class="fn">brackets</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">bool</span>`,
+    examples: [
+      { input: `brackets("()")`, output: "True", cls: "out-true" },
+      { input: `brackets("([])") `, output: "True", cls: "out-true" },
+      { input: `brackets("([)]")`, output: "False", cls: "out-false" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">brackets</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">bool</span><span class="pn">:</span>
+    stack <span class="pn">=</span> []
+    matching <span class="pn">=</span> {<span class="st">')'</span><span class="pn">:</span> <span class="st">'('</span>, <span class="st">']'</span><span class="pn">:</span> <span class="st">'['</span>, <span class="st">'}'</span><span class="pn">:</span> <span class="st">'{'</span>}
+    <span class="kw">for</span> ch <span class="kw">in</span> text<span class="pn">:</span>
+        <span class="kw">if</span> ch <span class="kw">in</span> <span class="st">'([{'</span><span class="pn">:</span>
+            stack<span class="pn">.</span>append(ch)
+        <span class="kw">elif</span> ch <span class="kw">in</span> <span class="st">')]}'</span><span class="pn">:</span>
+            <span class="kw">if not</span> stack <span class="kw">or</span> stack[<span class="pn">-</span><span class="nm">1</span>] <span class="pn">!=</span> matching[ch]<span class="pn">:</span>
+                <span class="kw">return</span> <span class="nm">False</span>
+            stack<span class="pn">.</span>pop()
+    <span class="kw">return</span> len(stack) <span class="pn">==</span> <span class="nm">0</span>`
+  },
+  {
+    id: "02",
+    name: "echo_validator",
+    tag: "bool", tagClass: "tag-bool",
+    desc: `Vérifie si une string est un <strong>palindrome</strong>.<br>Ignore les espaces, la ponctuation et la casse. Prend en compte uniquement les caractères alphabétiques.`,
+    proto: `<span class="kw">def</span> <span class="fn">echo_validator</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">bool</span>`,
+    examples: [
+      { input: `echo_validator("racecar")`, output: "True", cls: "out-true" },
+      { input: `echo_validator("A man a plan a canal Panama")`, output: "True", cls: "out-true" },
+      { input: `echo_validator("race a car")`, output: "False", cls: "out-false" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">echo_validator</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">bool</span><span class="pn">:</span>
+    cleaned <span class="pn">=</span> <span class="st">''</span><span class="pn">.</span>join(c<span class="pn">.</span>lower() <span class="kw">for</span> c <span class="kw">in</span> text <span class="kw">if</span> c<span class="pn">.</span>isalpha())
+    <span class="kw">if not</span> cleaned<span class="pn">:</span>
+        <span class="kw">return</span> <span class="nm">True</span>
+    <span class="kw">return</span> cleaned <span class="pn">==</span> cleaned[<span class="pn">::-</span><span class="nm">1</span>]`
+  },
+  {
+    id: "03",
+    name: "matrix_reverse",
+    tag: "list", tagClass: "tag-list",
+    desc: `Retourne une nouvelle matrice où <strong>chaque ligne est inversée</strong>.<br>La matrice originale ne doit pas être modifiée.`,
+    proto: `<span class="kw">def</span> <span class="fn">matrix_reverse</span>(matrix<span class="pn">:</span> <span class="tp">list[list[int]]</span>) <span class="pn">-></span> <span class="tp">list[list[int]]</span>`,
+    examples: [
+      { input: `[[1,2,3],[4,5,6]]`, output: "[[3,2,1],[6,5,4]]", cls: "out-list" },
+      { input: `[[1,2],[3,4]]`, output: "[[2,1],[4,3]]", cls: "out-list" },
+      { input: `[[1]]`, output: "[[1]]", cls: "out-list" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">matrix_reverse</span>(matrix<span class="pn">:</span> <span class="tp">list[list[int]]</span>) <span class="pn">-></span> <span class="tp">list[list[int]]</span><span class="pn">:</span>
+    <span class="kw">return</span> [row[<span class="pn">::-</span><span class="nm">1</span>] <span class="kw">for</span> row <span class="kw">in</span> matrix]`
+  },
+  {
+    id: "04",
+    name: "pattern_tracker",
+    tag: "int", tagClass: "tag-int",
+    desc: `Compte les paires valides de chiffres consécutifs.<br>Une paire est valide si le second chiffre est <strong>exactement +1</strong> par rapport au premier (9→0 est invalide).`,
+    proto: `<span class="kw">def</span> <span class="fn">pattern_tracker</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">int</span>`,
+    examples: [
+      { input: `pattern_tracker("123")`, output: "2", cls: "out-num" },
+      { input: `pattern_tracker("987654321")`, output: "0", cls: "out-num" },
+      { input: `pattern_tracker("01234567")`, output: "7", cls: "out-num" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">pattern_tracker</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">int</span><span class="pn">:</span>
+    count <span class="pn">=</span> <span class="nm">0</span>
+    prev <span class="pn">=</span> <span class="nm">None</span>
+    <span class="kw">for</span> ch <span class="kw">in</span> text<span class="pn">:</span>
+        <span class="kw">if</span> ch<span class="pn">.</span>isdigit()<span class="pn">:</span>
+            <span class="kw">if</span> prev <span class="kw">is not</span> <span class="nm">None</span> <span class="kw">and</span> int(ch) <span class="pn">==</span> prev <span class="pn">+</span> <span class="nm">1</span><span class="pn">:</span>
+                count <span class="pn">+=</span> <span class="nm">1</span>
+            prev <span class="pn">=</span> int(ch)
+        <span class="kw">else</span><span class="pn">:</span>
+            prev <span class="pn">=</span> <span class="nm">None</span>
+    <span class="kw">return</span> count`
+  },
+  {
+    id: "05",
+    name: "number_base_converter",
+    tag: "str", tagClass: "tag-str",
+    desc: `Convertit un nombre d'une base à une autre <strong>(2–36)</strong>.<br>Digits: <strong>0-9 et A-Z</strong>. Retourne <strong>"ERROR"</strong> si invalide.`,
+    proto: `<span class="kw">def</span> <span class="fn">number_base_converter</span>(number<span class="pn">:</span> <span class="tp">str</span>, from_base<span class="pn">:</span> <span class="tp">int</span>, to_base<span class="pn">:</span> <span class="tp">int</span>) <span class="pn">-></span> <span class="tp">str</span>`,
+    examples: [
+      { input: `("1010", 2, 10)`, output: `"10"`, cls: "out-str" },
+      { input: `("FF", 16, 10)`, output: `"255"`, cls: "out-str" },
+      { input: `("G", 16, 10)`, output: `"ERROR"`, cls: "out-false" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">number_base_converter</span>(number<span class="pn">:</span> <span class="tp">str</span>, from_base<span class="pn">:</span> <span class="tp">int</span>, to_base<span class="pn">:</span> <span class="tp">int</span>) <span class="pn">-></span> <span class="tp">str</span><span class="pn">:</span>
+    <span class="kw">if</span> from_base <span class="pn"><</span> <span class="nm">2</span> <span class="kw">or</span> to_base <span class="pn"><</span> <span class="nm">2</span> <span class="kw">or</span> from_base <span class="pn">></span> <span class="nm">36</span> <span class="kw">or</span> to_base <span class="pn">></span> <span class="nm">36</span><span class="pn">:</span>
+        <span class="kw">return</span> <span class="st">"ERROR"</span>
+    digits <span class="pn">=</span> <span class="st">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>
+    <span class="kw">try</span><span class="pn">:</span>
+        decimal <span class="pn">=</span> <span class="nm">0</span>
+        <span class="kw">for</span> ch <span class="kw">in</span> number<span class="pn">.</span>upper()<span class="pn">:</span>
+            val <span class="pn">=</span> digits<span class="pn">.</span>index(ch)
+            <span class="kw">if</span> val <span class="pn">>=</span> from_base<span class="pn">:</span>
+                <span class="kw">return</span> <span class="st">"ERROR"</span>
+            decimal <span class="pn">=</span> decimal <span class="pn">*</span> from_base <span class="pn">+</span> val
+        <span class="kw">if</span> decimal <span class="pn">==</span> <span class="nm">0</span><span class="pn">:</span>
+            <span class="kw">return</span> <span class="st">"0"</span>
+        result <span class="pn">=</span> <span class="st">""</span>
+        <span class="kw">while</span> decimal<span class="pn">:</span>
+            result <span class="pn">=</span> digits[decimal <span class="pn">%</span> to_base] <span class="pn">+</span> result
+            decimal <span class="pn">//=</span> to_base
+        <span class="kw">return</span> result
+    <span class="kw">except</span> <span class="tp">ValueError</span><span class="pn">:</span>
+        <span class="kw">return</span> <span class="st">"ERROR"</span>`
+  },
+  {
+    id: "06",
+    name: "shadow_merge",
+    tag: "list", tagClass: "tag-list",
+    desc: `Fusionne deux listes triées en <strong>une seule liste triée</strong>.<br>Gestion native des doublons.`,
+    proto: `<span class="kw">def</span> <span class="fn">shadow_merge</span>(list1<span class="pn">:</span> <span class="tp">list[int]</span>, list2<span class="pn">:</span> <span class="tp">list[int]</span>) <span class="pn">-></span> <span class="tp">list[int]</span>`,
+    examples: [
+      { input: `shadow_merge([1, 3, 5], [2, 4, 6])`, output: "[1, 2, 3, 4, 5, 6]", cls: "out-list" },
+      { input: `shadow_merge([1], [2, 3, 4])`, output: "[1, 2, 3, 4]", cls: "out-list" },
+      { input: `shadow_merge([], [1, 2, 3])`, output: "[1, 2, 3]", cls: "out-list" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">shadow_merge</span>(list1<span class="pn">:</span> <span class="tp">list[int]</span>, list2<span class="pn">:</span> <span class="tp">list[int]</span>) <span class="pn">-></span> <span class="tp">list[int]</span><span class="pn">:</span>
+    <span class="kw">return</span> sorted(list1 <span class="pn">+</span> list2)`
+  },
+  {
+    id: "07",
+    name: "string_permutation_checker",
+    tag: "bool", tagClass: "tag-bool",
+    desc: `Vérifie si deux strings sont des <strong>permutations l'une de l'autre</strong>.<br>Mêmes caractères, mêmes occurrences, ordre différent.`,
+    proto: `<span class="kw">def</span> <span class="fn">string_permutation_checker</span>(s1<span class="pn">:</span> <span class="tp">str</span>, s2<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">bool</span>`,
+    examples: [
+      { input: `("abc", "cab")`, output: "True", cls: "out-true" },
+      { input: `("hello", "olleh")`, output: "True", cls: "out-true" },
+      { input: `("abc", "abcc")`, output: "False", cls: "out-false" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">string_permutation_checker</span>(s1<span class="pn">:</span> <span class="tp">str</span>, s2<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">bool</span><span class="pn">:</span>
+    <span class="kw">if</span> len(s1) <span class="pn">!=</span> len(s2)<span class="pn">:</span>
+        <span class="kw">return</span> <span class="nm">False</span>
+    <span class="kw">return</span> sorted(s1) <span class="pn">==</span> sorted(s2)`
+  },
+  {
+    id: "08",
+    name: "py_string_sculptor",
+    tag: "str", tagClass: "tag-str",
+    desc: `Alterne la casse des <strong>caractères alphabétiques uniquement</strong>.<br>1er: lower, 2e: upper, 3e: lower... Ignore la ponctuation.`,
+    proto: `<span class="kw">def</span> <span class="fn">string_sculptor</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">str</span>`,
+    examples: [
+      { input: `string_sculptor("hello")`, output: `"hElLo"`, cls: "out-str" },
+      { input: `string_sculptor("Hello World")`, output: `"hElLo WoRlD"`, cls: "out-str" },
+      { input: `string_sculptor("Python3.9!")`, output: `"pYtHoN3.9!"`, cls: "out-str" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">py_string_sculptor</span>(text<span class="pn">:</span> <span class="tp">str</span>) <span class="pn">-></span> <span class="tp">str</span><span class="pn">:</span>
+    result <span class="pn">=</span> <span class="st">""</span>
+    alpha_index <span class="pn">=</span> <span class="nm">0</span>
+    <span class="kw">for</span> c <span class="kw">in</span> text<span class="pn">:</span>
+        <span class="kw">if</span> c<span class="pn">.</span>isalpha()<span class="pn">:</span>
+            result <span class="pn">+=</span> c<span class="pn">.</span>lower() <span class="kw">if</span> alpha_index <span class="pn">%</span> <span class="nm">2</span> <span class="pn">==</span> <span class="nm">0</span> <span class="kw">else</span> c<span class="pn">.</span>upper()
+            alpha_index <span class="pn">+=</span> <span class="nm">1</span>
+        <span class="kw">else</span><span class="pn">:</span>
+            result <span class="pn">+=</span> c
+    <span class="kw">return</span> result`
+  },
+  {
+    id: "09",
+    name: "twist_sequence",
+    tag: "list", tagClass: "tag-list",
+    desc: `<strong>Twist</strong> = déplace le dernier élément au début, décale les autres à droite.<br>Applique k fois. Optimise avec <strong>mod</strong> pour les grands k.`,
+    proto: `<span class="kw">def</span> <span class="fn">twist_sequence</span>(arr<span class="pn">:</span> <span class="tp">list[int]</span>, k<span class="pn">:</span> <span class="tp">int</span>) <span class="pn">-></span> <span class="tp">list[int]</span>`,
+    examples: [
+      { input: `twist_sequence([1,2,3,4], 1)`, output: "[4,1,2,3]", cls: "out-list" },
+      { input: `twist_sequence([1,2,3,4], 2)`, output: "[3,4,1,2]", cls: "out-list" },
+      { input: `twist_sequence([1,2,3,4], 4)`, output: "[1,2,3,4]", cls: "out-list" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">twist_sequence</span>(arr<span class="pn">:</span> <span class="tp">list[int]</span>, k<span class="pn">:</span> <span class="tp">int</span>) <span class="pn">-></span> <span class="tp">list[int]</span><span class="pn">:</span>
+    <span class="kw">if not</span> arr<span class="pn">:</span>
+        <span class="kw">return</span> arr
+    k <span class="pn">=</span> k <span class="pn">%</span> len(arr)
+    <span class="kw">return</span> arr[<span class="pn">-</span>k<span class="pn">:</span>] <span class="pn">+</span> arr[<span class="pn">:-</span>k] <span class="kw">if</span> k <span class="kw">else</span> arr[<span class="pn">:</span>]`
+  },
+  {
+    id: "10",
+    name: "whisper_cipher",
+    tag: "str", tagClass: "tag-str",
+    desc: `Chiffre de César : décale chaque lettre de <strong>shift</strong> positions.<br>Préserve la casse, ignore les caractères non-alphabétiques.`,
+    proto: `<span class="kw">def</span> <span class="fn">whisper_cipher</span>(text<span class="pn">:</span> <span class="tp">str</span>, shift<span class="pn">:</span> <span class="tp">int</span>) <span class="pn">-></span> <span class="tp">str</span>`,
+    examples: [
+      { input: `whisper_cipher("hello", 3)`, output: `"khoor"`, cls: "out-str" },
+      { input: `whisper_cipher("Hello World!", 1)`, output: `"Ifmmp Xpsme!"`, cls: "out-str" },
+      { input: `whisper_cipher("ABC123def", 5)`, output: `"FGH123ijk"`, cls: "out-str" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">whisper_cipher</span>(text<span class="pn">:</span> <span class="tp">str</span>, shift<span class="pn">:</span> <span class="tp">int</span>) <span class="pn">-></span> <span class="tp">str</span><span class="pn">:</span>
+    result <span class="pn">=</span> <span class="st">""</span>
+    <span class="kw">for</span> c <span class="kw">in</span> text<span class="pn">:</span>
+        <span class="kw">if</span> c<span class="pn">.</span>isalpha()<span class="pn">:</span>
+            base <span class="pn">=</span> ord(<span class="st">'A'</span>) <span class="kw">if</span> c<span class="pn">.</span>isupper() <span class="kw">else</span> ord(<span class="st">'a'</span>)
+            result <span class="pn">+=</span> chr((ord(c) <span class="pn">-</span> base <span class="pn">+</span> shift) <span class="pn">%</span> <span class="nm">26</span> <span class="pn">+</span> base)
+        <span class="kw">else</span><span class="pn">:</span>
+            result <span class="pn">+=</span> c
+    <span class="kw">return</span> result`
+  },
+  {
+    id: "11",
+    name: "cryptic_sorter",
+    tag: "list", tagClass: "tag-list",
+    desc: `Trie une liste de strings selon <strong>3 critères</strong> :<br>① Longueur (plus court en premier)<br>② Alphabétique (insensible à la casse)<br>③ Maintient l'ordre majuscules/minuscules en cas d'égalité.`,
+    proto: `<span class="kw">def</span> <span class="fn">cryptic_sorter</span>(strings<span class="pn">:</span> <span class="tp">list[str]</span>) <span class="pn">-></span> <span class="tp">list[str]</span>`,
+    examples: [
+      { input: `cryptic_sorter(["apple", "cat", "banana"])`, output: `["cat", "apple", "banana"]`, cls: "out-list" },
+      { input: `cryptic_sorter(["aaa", "AAA"])`, output: `["AAA", "aaa"]`, cls: "out-list" },
+      { input: `cryptic_sorter([])`, output: `[]`, cls: "out-list" },
+    ],
+    solution: `<span class="kw">def</span> <span class="fn">cryptic_sorter</span>(strings<span class="pn">:</span> <span class="tp">list[str]</span>) <span class="pn">-></span> <span class="tp">list[str]</span><span class="pn">:</span>
+    <span class="kw">return</span> sorted(strings, key<span class="pn">=lambda</span> s<span class="pn">:</span> (len(s), s<span class="pn">.</span>lower(), s))`
+  }
+];
+
+const grid = document.getElementById('grid');
+
+exercises.forEach((ex, i) => {
+  const delay = i * 60;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.animationDelay = delay + 'ms';
+
+  const examplesHTML = ex.examples.map(e => `
+    <div class="example-row">
+      <span class="example-input">${e.input}</span>
+      <span class="arrow">→</span>
+      <span class="example-output ${e.cls}">${e.output}</span>
+    </div>
+  `).join('');
+
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="card-num">EXERCISE ${ex.id}</div>
+      <div class="card-title">${ex.name}</div>
+      <div class="card-desc">${ex.desc}</div>
+      <span class="card-tag ${ex.tagClass}">${ex.tag}</span>
+    </div>
+    <div class="card-body">
+      <div class="body-left">
+        <div class="section-label">Prototype</div>
+        <div class="proto-block">${ex.proto}</div>
+      </div>
+      <div class="body-right">
+        <div class="section-label">Examples</div>
+        <div class="examples-grid">${examplesHTML}</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn-solution" onclick="toggleSolution(this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+        Voir la solution
+      </button>
+    </div>
+    <div class="solution-block">
+      <div class="sol-bar">
+        <span class="sol-lang">python</span>
+        <button class="copy-btn" onclick="copyCode(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path></svg>
+          Copy
+        </button>
+      </div>
+      <pre>${ex.solution}</pre>
+    </div>
+  `;
+
+  grid.appendChild(card);
+});
+
+function toggleSolution(btn) {
+  const card = btn.closest('.card');
+  const block = card.querySelector('.solution-block');
+  const isOpen = block.classList.contains('open');
+  if (isOpen) {
+    block.classList.remove('open');
+    btn.classList.remove('active');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> Voir la solution`;
+  } else {
+    block.classList.add('open');
+    btn.classList.add('active');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> Masquer la solution`;
+  }
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.solution-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path></svg> Copy`;
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

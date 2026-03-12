@@ -1,11 +1,10 @@
-def shadow_merge(list1: list[int], list2: list[int]) -> list[int]:
-	merged = list1 + list2
+def shadow_merge_1(list1: list[int], list2: list[int]) -> list[int]:
+	list1.extend(list2)
+	list1.sort()
+	return list1
 
-	n = len(merged)
-	for i in range(n):
-		for j in range(0, n - i - 1):
-			if merged[j] > merged[j + 1]:
-				merged[j], merged[j + 1] = merged[j + 1], merged[j]
-	return merged
+def shadow_merge(list1: list[int], list2: list[int]) -> list[int]:
+	return sorted(list1 + list2)
 
 # print(shadow_merge([3,1,5], [2,4]))
+# print(shadow_merge_2([3,1,5], [2,4]))

@@ -1,11 +1,18 @@
 PYTHON = python3
-MAIN_FILE = checker.py
+CHECK1 = checker.py
+CHECK2 = checker2.py
 
-.PHONY: run debug clean lint
+.PHONY: 1 debug clean lint
 
-run:
-	@echo "Programme launching..."
-	$(PYTHON) $(MAIN_FILE)
+1:
+	@echo "Programme launching with 1rst checker..."
+	$(PYTHON) $(CHECK1)
+	@$(MAKE) clean --no-print-directory
+
+2:
+	@echo "Programme launching with 2nd checker..."
+	$(PYTHON) $(CHECK2)
+	@$(MAKE) clean --no-print-directory
 
 debug:
 	@echo "Debug mode launching..."

@@ -1,4 +1,4 @@
-def string_permutation_checker(s1: str, s2: str) -> bool:
+def string_permutation_checker_2(s1: str, s2: str) -> bool:
 	if len(s1) != len(s2):
 		return False
 	count = {}
@@ -9,6 +9,11 @@ def string_permutation_checker(s1: str, s2: str) -> bool:
 		if count[c] < 0:
 			return False
 	return True
+
+def string_permutation_checker(s1: str, s2: str) -> bool:
+	if len(s1) != len(s2):
+		return False
+	return sorted(s1) == sorted(s2)
 
 # print(string_permutation_checker("abc", "cab"))
 # print(string_permutation_checker("hello", "olleh"))
