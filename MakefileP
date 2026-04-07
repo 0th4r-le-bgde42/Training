@@ -1,0 +1,34 @@
+PYTHON =
+MAIN_FILE =
+FILES =
+PIP =
+.PHONY: install run debug clean lint lint-strict
+
+run:
+	@echo "Programme launching..."
+	$(PYTHON) $(MAIN_FILE) $(MAP) $(W) $(H)
+
+debug:
+	@echo "Debug mode launching..."
+	$(PYTHON) -m pdb $(MAIN_FILE)
+
+install:
+	@echo "Dependancy installation..."
+	$(PIP) install -r requirements.txt
+
+clean:
+	@echo "Cleaning temporary files..."
+	@rm -rf __pycache__
+	@rm -rf .mypy_cache
+	@echo "\033[32mFiles delated\033[0m"
+
+lint:
+	@echo "Style verification (\033[31mflake8\033[0m)..."
+	@python3 -m flake8 $(FILES)
+	@echo "Type verification (\033[31mmypy\033[0m)..."
+	@mypy $(FILES) --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
+
+lint-strict:
+	@echo "Strict verification..."
+	@python3 -m flake8 $(FILES)
+	@mypy $(FILES) --strict
