@@ -1,0 +1,112 @@
+🎮 Flèches et Touches de Navigation
+
+    KEY_UP (Flèche Haut)
+
+    KEY_DOWN (Flèche Bas)
+
+    KEY_LEFT (Flèche Gauche)
+
+    KEY_RIGHT (Flèche Droite)
+
+    KEY_HOME (Début)
+
+    KEY_END (Fin)
+
+    KEY_PAGE_UP (Page Précédente)
+
+    KEY_PAGE_DOWN (Page Suivante)
+
+⚙️ Touches de Contrôle Système
+
+    KEY_SPACE (Espace)
+
+    KEY_ESCAPE (Échap)
+
+    KEY_ENTER (Entrée)
+
+    KEY_TAB (Tabulation)
+
+    KEY_BACKSPACE (Retour arrière)
+
+    KEY_INSERT (Insér)
+
+    KEY_DELETE (Suppr)
+
+    KEY_PAUSE (Pause)
+
+    KEY_PRINT_SCREEN (Impr. Écran)
+
+🔤 Lettres de l'Alphabet (A à Z)
+
+Attention : Raylib se base sur la disposition matérielle standard (QWERTY par défaut). Sur un clavier AZERTY français, la constante KEY_W correspond physiquement à la touche Z, KEY_A à la touche Q, etc.
+
+    KEY_A, KEY_B, KEY_C, KEY_D, KEY_E, KEY_F, KEY_G, KEY_H, KEY_I, KEY_J, KEY_K, KEY_L, KEY_M, KEY_N, KEY_O, KEY_P, KEY_Q, KEY_R, KEY_S, KEY_T, KEY_U, KEY_V, KEY_W, KEY_X, KEY_Y, KEY_Z
+
+🔢 Chiffres du haut (Alphanumériques)
+
+    KEY_ZERO (0)
+
+    KEY_ONE (1)
+
+    KEY_TWO (2)
+
+    KEY_THREE (3)
+
+    KEY_FOUR (4)
+
+    KEY_FIVE (5)
+
+    KEY_SIX (6)
+
+    KEY_SEVEN (7)
+
+    KEY_EIGHT (8)
+
+    KEY_NINE (9)
+
+⌨️ Pavé Numérique (NumPad)
+
+    KEY_KP_0 à KEY_KP_9 (Chiffres 0 à 9 du pavé)
+
+    KEY_KP_DECIMAL (Point / Virgule .)
+
+    KEY_KP_DIVIDE (Division /)
+
+    KEY_KP_MULTIPLY (Multiplication *)
+
+    KEY_KP_SUBTRACT (Soustraction -)
+
+    KEY_KP_ADD (Addition +)
+
+    KEY_KP_ENTER (Touche Entrée du pavé)
+
+🔒 Touches Modificatrices et Verrous
+
+    KEY_LEFT_SHIFT / KEY_RIGHT_SHIFT (Majuscule)
+
+    KEY_LEFT_CONTROL / KEY_RIGHT_CONTROL (Ctrl)
+
+    KEY_LEFT_ALT / KEY_RIGHT_ALT (Alt / Alt Gr)
+
+    KEY_LEFT_SUPER / KEY_RIGHT_SUPER (Touche Windows ou Commande Mac)
+
+    KEY_CAPS_LOCK (Verr. Maj)
+
+    KEY_NUM_LOCK (Verr. Num)
+
+    KEY_SCROLL_LOCK (Arrêt Défil)
+
+🛠️ Touches de Fonction (F1 à F12)
+
+    KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12
+
+RESTE A FAIRE
+
+Global:
+- voir portage sur windows (IOS?)
+
+
+FIX:
+
+
+FPS:

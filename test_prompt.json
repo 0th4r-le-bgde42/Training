@@ -1,0 +1,38 @@
+[
+    {
+        "prompt": "What is 45 plus 12?"
+    },
+    {
+        "prompt": "Say hello to my friend Alice."
+    },
+    {
+        "prompt": "Can you reverse the word 'banana'?"
+    },
+    {
+        "prompt": "What's the square root of 81?"
+    },
+    {
+        "prompt": "I have 50 apples and someone gives me 30 more. How many do i have total?"
+    },
+    {
+        "prompt": "Send a wlcoming message to 'Mr. Anderson'."
+    },
+    {
+        "prompt": "Flip this text backwards: 'racecar'."
+    },
+    {
+        "prompt": "If a square has an area of 64, what is the length of one side?"
+    },
+    {
+        "prompt": "Change every 'e' to an 'x' in the sentence 'Elephants are heavy'."
+    },
+    {
+        "prompt": "My code is broken, can you help me reverse engineer it? Oh wait, just reverse the string 'broken code' instead."
+    },
+    {
+        "prompt": "I need to calculate something. First, take the string '100' and turn it into a number, then give me the square root of it."
+    },
+    {
+        "prompt": "Regex operation required: target string is 'User123 logged in', pattern is '[0-9]+', swap with 'XXX'."
+    }
+]
