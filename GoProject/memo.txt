@@ -1,0 +1,173 @@
+dl bonne version
+go install golang.org/x/tools/gopls@v0.11.0
+ajouter au PATH
+echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.zshrc
+source ~/.zshrc
+
+types en go
+
+types simple:
+ennoncer avec:
+var nom_de_variable types = val 
+ou
+nom_de_variable := val
+
+- int / int8 / int16 / int32 / int64
+- string
+- bool
+- float32 / float64 (plus precis)
+
+types composites:
+- array:
+	var numbers[5]int = [5]int[1, 2, 3, 4, 5]
+
+- slices:
+	numbers := []int{1, 2, 3, 4}
+	numbers = append(numbers, 5) (ajouter un element)
+
+- maps (equivalent des Dict python):
+	capitales := map[string]string{
+		"France": "Paris",
+		"Italie": "Rome",
+	}
+	capitales["Allemagne"] = "Berlin"
+
+- structures:
+	type Person struct {
+		Name string
+		Age int
+	}
+	person := Person{Name: "Alice", Age: 30}
+
+
+Conversion de types:
+- int vers float64
+	var x int = 42
+	var y float64 = float64(x)
+
+- int vers string
+	var x int = 123
+	var s string = fmt.Sprintf("%d", x)
+
+
+Operateurs:
+operateurs arithmetiques, symboles logique:
++, -, *, /, %
+	a := 10
+	b := 3
+	fmt.Println("Addition :", a+b) // 13
+	fmt.Println("Division :", a/b) // 3 (div entiere si int, pour div decimale: type float necessaire)
+	fmt.Println("Module :", a%b) // 1
+
+operateurs relationnels,
+comparent 2 valeurs, retourne un bool
+==, !=, <, <=, >, >=
+	x := 5
+	y := 10
+	fmt.Println("x == y :", x == y) // false
+	fmt.Println("x < y :", x < y)   // true
+
+operateurs logiques,
+combine ou inverse des expressions conditionnelles
+&& (ET logique) / || (OU logique) / ! (NON logique)
+	a := 5
+	b := 10
+	fmt.Println("a > 0 && b > 0 :", a > 0 && b > 0) // true
+	fmt.Println("a < 0 || b > 0 :", a < 0 || b > 0) // true
+	fmt.Println("!(a > b) :", !(a > b))             // true
+
+operateurs d'affectation,
+servent a attribuer ou modifier la valeurs
+=, +=, -=, *=, /=, %=
+	x := 10
+	x += 5 // x = x + 5
+	fmt.Println(x) // 15
+	x *= 2 // x = x * 2
+	fmt.Println(x) // 30
+
+operateurs sur les bits,
+permet de manipuler les bits des nombres
+& (ET bit-a-bit), | (OU bit-a-bit), ^ (OU exclusif), &^ (AND NOT, effacement de bits),
+<< (Decalage a gauche), >> (Decalage a droite)
+	a := 6  // 110 en binaire
+	b := 3  // 011 en binaire
+	fmt.Println("a & b :", a & b) // 2 (010 en binaire)
+	fmt.Println("a | b :", a | b) // 7 (111 en binaire)
+	fmt.Println("a ^ b :", a ^ b) // 5 (101 en binaire)
+
+
+
+Structures de controles:
+classique if, else if, else
+
+alternative:
+switch:
+	day := "mardi"
+	switch day {
+		case "lundi":
+			fmt.Println("Debut de la semaine")
+		case "mardi", "mercredi":
+			fmt.Println("Millieu de semaine")
+		case "jeudi", "vendredi":
+			fmt.Println("Presque le weekend")
+		default:
+			fmt.Println("C'est le weekend !")
+	}
+
+sans expression du switch, chaque case agit comme une condition independante:
+num := 7
+switch {
+	case num%2 == 0:
+		fmt.Println("Nombre pair")
+	case num%2 != 0:
+		fmt.Println("Nombre impair")
+}
+les blocs case n’ont pas besoin de break,
+l'exécution s'arrête automatiquement après chaque bloc.
+
+Boucles for, comme en c:
+	for i := 0; i < 5; i++ {
+		fmt.Println(Iteration :", i)
+	}
+
+Un for sans initialisation ni incrementation agit comme un while:
+	i := 0
+	for i < 5 {
+		fmt.Println("i vaut :", i)
+		i++
+	}
+
+Un for sans condition declanche une boucle infinie:
+	for{
+		fmt.Println("Boucle infinie")
+		break // necessite une condition pour sortir
+	}
+
+
+Controle de flux:
+- break: sors d'une boucle
+	for i := 0; i < 10; i++ {
+		if i == 5 {
+			break
+		}
+		fmt.Println(i)
+	}
+
+- continue: passe a l'iteration suivante
+	for i := 0; i < 10; i++ {
+		if i%2 == 0 {
+			continue
+		}
+		fmt.Println(i) // Affiche uniquement les nombres impairs
+	}
+
+- goto saute a un label 
+	i := 0
+	for {
+		if i == 5 {
+			goto End
+		}
+		i++
+	}
+	End:
+	fmt.Println("Boucle terminée.")
