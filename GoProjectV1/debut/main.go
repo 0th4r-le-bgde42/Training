@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"GoProject/debut/utils"
+	"fmt"
 )
-
 
 func main() {
 	var name string

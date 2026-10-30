@@ -6,7 +6,7 @@ type Compte struct {
 	Solde int
 }
 
-func crediterValeur(c Compte, montant int) { c.Solde += montant } // sur une copie
+func crediterValeur(c Compte, montant int)    { c.Solde += montant } // sur une copie
 func crediterPointeur(c *Compte, montant int) { c.Solde += montant } // sur l'original
 
 func echanger(a, b *int) (*int, *int) {

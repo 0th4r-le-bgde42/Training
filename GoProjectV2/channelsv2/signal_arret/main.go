@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func signals(){
+func signals() {
 	arret := make(chan struct{})
 	var wg sync.WaitGroup
 
@@ -17,7 +17,7 @@ func signals(){
 			defer wg.Done()
 			for {
 				select {
-				case <- arret:
+				case <-arret:
 					fmt.Printf("worker %d : arret demande\n", id)
 					return
 				default:
@@ -33,7 +33,6 @@ func signals(){
 	fmt.Printf("tous les workers sont arretes\n\n")
 }
 
-
 func produire(lignes []string) <-chan string {
 	sortie := make(chan string)
 	go func() {
@@ -44,7 +43,6 @@ func produire(lignes []string) <-chan string {
 	}()
 	return sortie
 }
-
 
 func filtrerErreurs(entree <-chan string) <-chan string {
 	sortie := make(chan string)
@@ -59,10 +57,9 @@ func filtrerErreurs(entree <-chan string) <-chan string {
 	return sortie
 }
 
-
-func main(){
+func main() {
 	signals()
-	
+
 	journal := []string{
 		"INFO démarrage du service",
 		"ERROR connexion refusée sur 5432",
@@ -70,7 +67,7 @@ func main(){
 		"ERROR timeout upstream",
 	}
 
-	for erreur := range(filtrerErreurs(produire(journal))) {
+	for erreur := range filtrerErreurs(produire(journal)) {
 		fmt.Println("alerte:", erreur)
 	}
 }

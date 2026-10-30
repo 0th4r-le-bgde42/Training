@@ -49,5 +49,5 @@ func inputArg() []int {
 
 func main() {
 	n1 := inputArg()
-    fmt.Printf("Moyenne de %v : %.2f", n1, moyenne(n1...))
+	fmt.Printf("Moyenne de %v : %.2f", n1, moyenne(n1...))
 }

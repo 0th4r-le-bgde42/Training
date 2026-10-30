@@ -5,11 +5,9 @@ import (
 	"sort"
 )
 
-
-
 func main() {
 	var tab [3]int = [3]int{1, 2, 3} // taille fixe
-	sli := []int{1, 2, 3} // taille variable
+	sli := []int{1, 2, 3}            // taille variable
 	sli = append(sli, 4)
 	fmt.Println(tab, sli)
 
@@ -26,7 +24,6 @@ func main() {
 		// apres append(3): len=3 cap=4
 	}
 
-
 	base := []int{10, 20, 30, 40}
 	vue := base[1:3]
 	vue[0] = 99
@@ -42,7 +39,6 @@ func main() {
 	// on a donc [10 20 30 40] [99 30]
 	// un sous-slice partage la mémoire de son parent.
 	// Dès qu'on doit modifier une portion sans toucher l'original, utiliser copy.
-
 
 	stock := map[string]int{"pommes": 5, "poires": 3}
 	stock["bananes"] = 7

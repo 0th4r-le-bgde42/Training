@@ -2,7 +2,7 @@ package main
 
 import "sync"
 
-func fusionner(entrees ...<-chan string) <- chan string {
+func fusionner(entrees ...<-chan string) <-chan string {
 	sortie := make(chan string)
 	var wg sync.WaitGroup
 
@@ -15,7 +15,7 @@ func fusionner(entrees ...<-chan string) <- chan string {
 			}
 		}(entree)
 	}
-	go func ()  {
+	go func() {
 		wg.Wait()
 		close(sortie)
 	}()
@@ -23,5 +23,6 @@ func fusionner(entrees ...<-chan string) <- chan string {
 }
 
 func main() {
+	var web chan string
 	fusionner(web)
 }

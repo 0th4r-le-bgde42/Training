@@ -16,7 +16,7 @@ func main() {
 	}
 	f("Julien")
 	func(x int) {
-		x = x*2
+		x = x * 2
 		fmt.Println("Valeur :", x)
 	}(42)
 	compte := compteur()

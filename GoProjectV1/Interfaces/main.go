@@ -10,21 +10,22 @@ type Notifier interface {
 }
 
 type Console struct{}
+
 func (Console) Notifier(m string) string { return "console: " + m }
 
 type Email struct{ Dest string }
+
 func (e Email) Notifier(m string) string {
 	return fmt.Sprintf("email->%s: %s", e.Dest, strings.ToUpper(m))
 }
-
 
 func alerter(n Notifier, msg string) string {
 	return n.Notifier(msg)
 }
 
-
 type MonErreur struct{}
-func (*MonErreur) Error() string { return "boum"}
+
+func (*MonErreur) Error() string { return "boum" }
 
 func mauvais() error {
 	var p *MonErreur

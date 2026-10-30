@@ -25,7 +25,8 @@ func charger(id int) error {
 }
 
 type ErrValidation struct{ Champ string }
-func (e *ErrValidation) Error() string { return "champ invalide: " + e.Champ}
+
+func (e *ErrValidation) Error() string { return "champ invalide: " + e.Champ }
 
 func tmain() {
 	BrutError()

@@ -2,9 +2,9 @@ package utils
 
 import (
 	"fmt"
-	"strings"
-	"strconv"
 	"math/rand"
+	"strconv"
+	"strings"
 )
 
 func GetGretting(name string) string {
@@ -21,7 +21,7 @@ func Calc() {
 	fmt.Println("Addition :", a+b)
 	fmt.Println("Soustraction :", a-b)
 	fmt.Println("Multiplication :", a*b)
-	if a != 0 && b != 0{
+	if a != 0 && b != 0 {
 		fmt.Println("Division :", a/b)
 	} else {
 		fmt.Println("Division par 0 impossible")
@@ -35,14 +35,14 @@ func Days() {
 	fmt.Scanln(&day)
 	clean_day := strings.ToLower(day)
 	switch clean_day {
-		case "lundi":
-			fmt.Println("Debut de la semaine")
-		case "mardi", "mercredi":
-			fmt.Println("Millieu de semaine")
-		case "jeudi", "vendredi":
-			fmt.Println("Presque le weekend")
-		default:
-			fmt.Println("C'est le weekend !")
+	case "lundi":
+		fmt.Println("Debut de la semaine")
+	case "mardi", "mercredi":
+		fmt.Println("Millieu de semaine")
+	case "jeudi", "vendredi":
+		fmt.Println("Presque le weekend")
+	default:
+		fmt.Println("C'est le weekend !")
 	}
 }
 
@@ -89,12 +89,12 @@ func Devinette(name string) {
 				fmt.Printf("Bien vue, le nombre attendu etait bien %d!\n", num)
 				Relance(name)
 				return
-			} 
+			}
 			if attempt_int == 0 {
 				fmt.Printf("Dommage, tu n'as pas reussi a trouver...\nLe nombre etait %d\n", num)
 				Relance(name)
 				return
-			} 
+			}
 			if val < num {
 				fmt.Printf("Et non, le chiffre est trop petit..\nPlus que %d essaies\n", attempt_int)
 			} else {
@@ -133,8 +133,8 @@ func Relance(name string) {
 			Devinette(name)
 			return
 		} else if choice == "Non" || choice == "non" {
-            fmt.Printf("A bientot %s !\n", name)
-            return
+			fmt.Printf("A bientot %s !\n", name)
+			return
 		} else {
 			fmt.Printf("Je n'ai pas compris, reessaye avec une bonne commande.\n")
 		}

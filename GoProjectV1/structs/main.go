@@ -7,14 +7,14 @@ import (
 
 // Struct classique
 type Personne struct {
-	nom		string
-	age		int
-	actif	bool
+	nom   string
+	age   int
+	actif bool
 }
 
 // Champs exportes et tags JSON
 type User struct {
-	Name string `json:"name"`
+	Name  string `json:"name"`
 	Email string `json:"email,omitempty"`
 	admin bool
 }
@@ -22,29 +22,28 @@ type User struct {
 // Fonction Constructeur
 func NewPersonne(nom string, age int) *Personne {
 	return &Personne{
-		nom:	nom,
-		age: 	age,
-		actif:	true,
+		nom:   nom,
+		age:   age,
+		actif: true,
 	}
 }
 
 // Composer par embedding
 type Adresse struct {
-	Ville	string
-	CP		string
+	Ville string
+	CP    string
 }
 
 type Client struct {
-	Nom	string
+	Nom string
 	Adresse
 }
 
 // Struct imbriquees
 type Commande struct {
-	ID		string
-	Client	Client
+	ID     string
+	Client Client
 }
-
 
 func main() {
 	p1 := Personne{"Louis", 28, true}
@@ -68,7 +67,7 @@ func main() {
 	c := Client{Nom: "ACME", Adresse: Adresse{Ville: "Paris", CP: "75001"}}
 	fmt.Println(c.Ville)
 	fmt.Println(c.Adresse.CP)
-	
+
 	co := Commande{ID: "1234", Client: c}
 	fmt.Println(co.Client.Adresse.CP)
 	fmt.Println(co.Client.Nom)
@@ -77,7 +76,7 @@ func main() {
 	fmt.Println(Personne{"Be", 1, true} == Personne{"Al", 1, true})
 
 	// Struct anonyme ou vide
-	point := struct{X, Y int}{X: 1, Y: 2}
+	point := struct{ X, Y int }{X: 1, Y: 2}
 	set := map[string]struct{}{"a": {}, "b": {}}
 	fmt.Println(point.X, point.Y)
 	_, present := set["a"]

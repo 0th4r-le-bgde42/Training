@@ -2,7 +2,6 @@ package main
 
 import "fmt"
 
-
 type Compteur struct {
 	n int
 }
@@ -11,13 +10,11 @@ func (c *Compteur) Increment() { c.n++ } // Recepteur pointeur
 
 func (c Compteur) Valeur() int { return c.n } // Recepteur valeur
 
-
 type Celsius float64
 
 func (c Celsius) EnFahrenheit() float64 {
 	return float64(c)*9/5 + 32
 }
-
 
 type Rectangle struct {
 	Largeur float64
@@ -25,7 +22,7 @@ type Rectangle struct {
 }
 
 func (c Rectangle) Aire() float64 {
-	return c.Largeur*c.Hauteur
+	return c.Largeur * c.Hauteur
 }
 
 func (c *Rectangle) Agrandir(f float64) {

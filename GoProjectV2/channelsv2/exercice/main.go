@@ -16,7 +16,7 @@ func main() {
 	go interroger("facturation", 80*time.Millisecond, res)
 	go interroger("stock", 400*time.Millisecond, res)
 
-	delai := time.After(200*time.Millisecond)
+	delai := time.After(200 * time.Millisecond)
 	recu := 0
 
 	for recu < 2 {

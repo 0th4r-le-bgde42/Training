@@ -5,8 +5,7 @@ import (
 	"sync"
 )
 
-
-func sommer(nombres []int, resultats chan <- int, wg *sync.WaitGroup) {
+func sommer(nombres []int, resultats chan<- int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	s := 0
 	for _, n := range nombres {
@@ -15,7 +14,7 @@ func sommer(nombres []int, resultats chan <- int, wg *sync.WaitGroup) {
 	resultats <- s
 }
 
-func result() int{
+func result() int {
 	nombres := []int{1, 2, 3, 4, 5, 6, 7, 8}
 	resultats := make(chan int, 2)
 	var wg sync.WaitGroup
@@ -36,20 +35,20 @@ func result() int{
 	return total
 }
 
-func add() int{
-	val := []int{1,2,3,4,5,6,7,8}
+func add() int {
+	val := []int{1, 2, 3, 4, 5, 6, 7, 8}
 
 	ch := make(chan int, 2)
 	compenser := 0
 	moyenne := len(val) / 2
 	var wg sync.WaitGroup
 
-	for i := moyenne; i <= len(val); i += moyenne{
+	for i := moyenne; i <= len(val); i += moyenne {
 		wg.Add(1)
-		go func(l []int){
+		go func(l []int) {
 			defer wg.Done()
 			total := 0
-			for _, pipi := range l{
+			for _, pipi := range l {
 				total += pipi
 			}
 			ch <- total
@@ -61,21 +60,20 @@ func add() int{
 	close(ch)
 
 	final := 0
-	for midable := range ch{
+	for midable := range ch {
 		final += midable
 	}
 
 	return final
 }
 
-func main(){
+func main() {
 	// --- test channels 1 ---
 	ch := make(chan int)
 	go func() { ch <- 42 }()
 	v := <-ch
 	fmt.Printf("--- Test channels 1 ---\n")
 	fmt.Println(v)
-
 
 	// --- test channels 2 ---
 	jobs := make(chan int, 5)
@@ -106,7 +104,6 @@ func main(){
 	}
 	fmt.Printf("\n--- Test channels 2 ---\n")
 	fmt.Printf("%d\n", total)
-
 
 	fmt.Printf("\n-- Ex moi/mschappe --\n%d\n", add())
 	fmt.Printf("\n-- Ex Stephane --\n%d\n", result())
