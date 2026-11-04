@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -33,18 +34,19 @@ type Context interface {
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
+	var wg sync.WaitGroup
 	defer cancel()
-
-	go func ()  {
+	wg.Go(func () {
 		select {
 		case <-ctx.Done():
 			fmt.Println("Travail annule :", ctx.Err())
 			return
-		case <-time.After(5*time.Second):
+		case <-time.After(1499*time.Second):
 			fmt.Println("Travail termine")
 		}
-	}()
+	})
 
-	time.Sleep(1*time.Second)
+	time.Sleep(1500*time.Second)
 	cancel()
+	wg.Wait()
 }
