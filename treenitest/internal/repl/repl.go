@@ -22,7 +22,7 @@ func (c *DynamicCompleter) Do(line []rune, pos int) (newLine [][]rune, length in
 			prefix = tokens[0]
 		}
 		var candidates [][]rune
-		commands := []string{"list", "char", "birthday", "bday", "credits", "help", "exit"}
+		commands := []string{"list", "char", "birthday", "bday", "avatar", "credits", "help", "exit"}
 		for _, cmdName := range commands {
 			if strings.HasPrefix(cmdName, prefix) {
 				candidates = append(candidates, []rune(strings.TrimPrefix(cmdName, prefix)))

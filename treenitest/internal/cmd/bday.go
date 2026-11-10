@@ -6,6 +6,8 @@ import (
 	"net/url"
 	"strings"
 	"sync"
+	"sort"
+	"strconv"
 
 	"github.com/spf13/cobra"
 	"treenitest/internal/api"
@@ -26,6 +28,7 @@ var birthdayCmd = &cobra.Command{
 			Name     string
 			Race     string
 			Birthday string
+			Day int
 		}
 
 		var matches []Match
@@ -59,12 +62,40 @@ var birthdayCmd = &cobra.Command{
 					}
 
 					bday := strings.TrimSpace(perso.Stats.Birthday)
-					if strings.Contains(strings.ToLower(bday), query) {
+                    cleanBday := strings.ToLower(strings.ReplaceAll(bday, ",", " "))
+                    words := strings.Fields(cleanBday)
+
+                    matched := false
+                    if len(strings.Fields(query)) > 1 {
+                        if len(words) >= 2 && (words[0]+" "+words[1] == query || words[1]+" "+words[0] == query) {
+                            matched = true
+                        }
+                    } else {
+                        for _, w := range words {
+                            cleanW := strings.TrimRight(w, "stndrh")
+                            if w == query || cleanW == query {
+                                matched = true
+                                break
+                            }
+                        }
+                    }
+
+                    if matched {
+						dayVal := 0
+						for _, w := range words {
+							cleanNum := strings.TrimRight(w, "stndrh")
+							if d, err := strconv.Atoi(cleanNum); err == nil && d >= 1 && d <= 31 {
+								dayVal = d
+								break
+							}
+						}
+
 						mu.Lock()
 						matches = append(matches, Match{
 							Name:     perso.Name.English,
 							Race:     strings.ToUpper(r),
 							Birthday: bday,
+							Day:      dayVal,
 						})
 						mu.Unlock()
 					}
@@ -78,6 +109,13 @@ var birthdayCmd = &cobra.Command{
 			fmt.Printf("Aucun personnage trouvé pour '%s'.\n", query)
 			return nil
 		}
+
+		sort.Slice(matches, func(i, j int) bool {
+			if matches[i].Day == matches[j].Day {
+				return matches[i].Name < matches[j].Name
+			}
+			return matches[i].Day < matches[j].Day
+		})
 
 		fmt.Printf("\n=== RÉSULTATS POUR '%s' (%d trouvé(s)) ===\n", strings.ToUpper(query), len(matches))
 		for _, m := range matches {

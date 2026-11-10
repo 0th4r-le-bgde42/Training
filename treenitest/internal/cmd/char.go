@@ -41,7 +41,24 @@ var charCmd = &cobra.Command{
 		if len(args) >= 2 && knownRaces[strings.ToLower(args[0])] {
 			perso, err = api.FetchCharacter(args[0], strings.Join(args[1:], " "))
 		} else {
-			perso, err = api.FindCharacter(strings.Join(args, " "))
+			persos, err := api.FindCharacter(strings.Join(args, " "))
+			if err != nil || len(persos) == 0 {
+				return fmt.Errorf("personnage introuvable")
+			}
+			if len(persos) == 1 {
+				perso = persos[0]
+			} else {
+				fmt.Printf("\nPlusieurs personnages correspondent :\n")
+				for i, p := range persos {
+					fmt.Printf("  [%d] %-25s (%s)\n", i+1, p.Name.English, p.Stats.Race)
+				}
+				fmt.Printf("\nChoisis un numéro (1-%d) : ", len(persos))
+				var choice int
+				if _, err := fmt.Scanln(&choice); err != nil || choice < 1 || choice > len(persos) {
+					return fmt.Errorf("sélection annulée")
+				}
+				perso = persos[choice-1]
+			}
 		}
 
 		if err != nil {

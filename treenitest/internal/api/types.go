@@ -1,5 +1,33 @@
 package api
 
+import (
+	"encoding/json"
+	"strings"
+)
+
+// FlexibleRace gère à la fois "Soul" et ["Human", "Fullbringer"]
+type FlexibleRace string
+
+func (r *FlexibleRace) UnmarshalJSON(data []byte) error {
+	// Cas 1 : C'est une string simple ("Soul")
+	var s string
+	if err := json.Unmarshal(data, &s); err == nil {
+		*r = FlexibleRace(s)
+		return nil
+	}
+
+	// Cas 2 : C'est un tableau de strings (["Human", "Fullbringer"])
+	var arr []string
+	if err := json.Unmarshal(data, &arr); err == nil {
+		*r = FlexibleRace(strings.Join(arr, ", "))
+		return nil
+	}
+
+	// Valeur par défaut si format inattendu
+	*r = ""
+	return nil
+}
+
 type NameStruct struct {
 	English string `json:"english"`
 	Kanji   string `json:"kanji"`
@@ -13,7 +41,7 @@ type ZanpakutoStruct struct {
 }
 
 type StatsStruct struct {
-	Race      string          `json:"race"`
+	Race      FlexibleRace    `json:"race"` // <-- Modifié ici
 	Birthday  string          `json:"birthday"`
 	Gender    string          `json:"gender"`
 	Height    string          `json:"height"`
