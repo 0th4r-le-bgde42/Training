@@ -1,13 +1,15 @@
 package cmd
 
 import (
-	"fmt"
-	"strings"
 	"encoding/json"
+	"fmt"
 	"net/url"
 	"sort"
+	"strings"
 
 	"treenitest/internal/api"
+	"treenitest/internal/cache"
+
 	"github.com/spf13/cobra"
 )
 
@@ -40,11 +42,11 @@ var listCmd = &cobra.Command {
 			return fmt.Errorf("format de réponse invalide : %w", err)
 		}
 
-
 		noms, ok := res[category]
 		if !ok {
 			return fmt.Errorf("aucune donnée trouvée pour '%s'", category)
 		}
+		cache.SetCategory(category, noms)
 
 		if sortFlag {
 			sort.Strings(noms)
