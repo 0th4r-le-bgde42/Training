@@ -1,0 +1,18 @@
+{
+  "auth_users": {
+    "admin": "root_token_99",
+    "guest": "readonly_12"
+  },
+  "auth_sessions": {
+    "active_count": 4,
+    "timeout_sec": 3600
+  },
+  "system_config": {
+    "env": "dev",
+    "max_connections": 100
+  },
+  "network_ports": {
+    "http": 8080,
+    "metrics": 9090
+  }
+}
